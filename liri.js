@@ -11,7 +11,7 @@ var value=extra.join(" ");
 // We will then create a switch-case statement (if-else would also work).
 // The switch-case will direct which function gets run.
 switch (action) {
-    case "concert-this":
+    case "concert-this":bands(value);
         
             break;
     case "spotify-this-song":spoti(value);
@@ -23,6 +23,7 @@ switch (action) {
     case "do-what-it-says":
     
             break;
+    default : console.log('"'+action+'" is not a defined function'); break;
 }
 
 function spoti(song){
@@ -42,6 +43,23 @@ console.log(data);
 console.log(data.tracks.items[0]); 
 });
 }
+
+function bands(band){
+    var bandsintown = require('bandsintown')("codingbootcamp");
+    bandsintown
+        .getArtistEventList(band)
+        .then(function(events) {
+            //console.log(events);
+            for (var i=0;i<10;i++)
+            {
+                console.log(events[i].title);
+                console.log(events[i].venue.name+" in "+events[i].venue.city);
+                console.log(events[i].formatted_datetime);
+                console.log("**************");
+           }
+    });
+}
+
 
 console.log("**************");
 console.log("APP NOT READY");

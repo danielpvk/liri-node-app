@@ -38,9 +38,14 @@ function spoti(song){
         if (err) {
         return console.log('Error occurred: ' + err);
     }
- 
-console.log(data); 
-console.log(data.tracks.items[0]); 
+    for (var i=0; i<10;i++)
+    {   console.log("**************");
+        console.log("***ARTIST : "+data.tracks.items[i].artists[0].name);
+        console.log("***ALBUM : "+data.tracks.items[i].album.name);
+        console.log("***SONG : "+data.tracks.items[i].name);
+        console.log("***SPOTIFY LINK : "+data.tracks.items[i].external_urls.spotify);
+        console.log("");
+    }
 });
 }
 
@@ -56,6 +61,7 @@ function bands(band){
                 console.log(events[i].venue.name+" in "+events[i].venue.city);
                 console.log(events[i].formatted_datetime);
                 console.log("**************");
+                console.log("");
            }
     });
 }

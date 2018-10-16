@@ -10,21 +10,6 @@ var [action,...extra]=process.argv.slice(2);//action guardamos lo de 2, y en ext
 var value=extra.join(" ");
 // We will then create a switch-case statement (if-else would also work).
 // The switch-case will direct which function gets run.
-switch (action) {
-    case "concert-this":bands(value);
-        
-            break;
-    case "spotify-this-song":spoti(value);
-            console.log("funciona");
-            break;
-    case "movie-this":
-            omdb(value);
-             break;
-    case "do-what-it-says":
-    
-            break;
-    default : console.log('"'+action+'" is not a defined function'); break;
-}
 
 function spoti(song){
  
@@ -36,19 +21,17 @@ function spoti(song){
     console.log(value);
     spotify.search({ type: 'track', query: song }, function(err, data) {
         if (err) {
-        return console.log('Error occurred: ' + err);
-    }
-    for (var i=0; i<10;i++)
-    {   console.log("**************");
-        console.log("***ARTIST : "+data.tracks.items[i].artists[0].name);
-        console.log("***ALBUM : "+data.tracks.items[i].album.name);
-        console.log("***SONG : "+data.tracks.items[i].name);
-        console.log("***SPOTIFY LINK : "+data.tracks.items[i].external_urls.spotify);
-        console.log("");
-    }
-    console.log("**************");
-    console.log("APP NOT READY");
-});
+             return console.log('Error occurred: ' + err);
+         }
+        for (var i=0; i<10;i++)
+        {   console.log("**************");
+            console.log("***ARTIST : "+data.tracks.items[i].artists[0].name);
+            console.log("***ALBUM : "+data.tracks.items[i].album.name);
+            console.log("***SONG : "+data.tracks.items[i].name);
+            console.log("***SPOTIFY LINK : "+data.tracks.items[i].external_urls.spotify);
+            console.log("");
+        }
+    });
 }
 
 function bands(band){
@@ -66,8 +49,6 @@ function bands(band){
                 console.log("");
            }
     });
-    console.log("**************");
-    console.log("APP NOT READY");
 }
 
 function omdb(movie){
@@ -89,12 +70,46 @@ function omdb(movie){
         console.log("Plot: " + JSON.parse(body).Plot);
         console.log("Actors: " + JSON.parse(body).Actors);
     }
-});
+    });
 
 }
+var what=function(){
+    fs = require('fs');
+    fs.readFile('random.txt', 'utf8', function (err,data) {
+        if (err) {
+            return console.log("error"+err);
+        }
+        var dataArray=data.split(',',2);
+        console.log("action "+dataArray[0]);
+        console.log("value "+dataArray[1]);
+        selector(dataArray[0],dataArray[1]);
+        
+    });
 
+}
+function selector(action,value){
+    switch (action) {
+        case "concert-this":bands(value);
+            
+                break;
+        case "spotify-this-song":spoti(value);
+                console.log("funciona");
+                break;
+        case "movie-this":
+                omdb(value);
+                break;
+        case "do-what-it-says":
+                what();
 
-console.log("**************");
-console.log("APP NOT READY");
+                //selector(args.action,args.value);
+                break;
+        default : console.log('"'+action+'" is not a defined function.  You can try one of the following: ');
+                console.log("");
+                console.log("concert-this");
+                console.log("spotify-this-song");
+                console.log("movie-this");
+                console.log("do-what-it-says"); break;
+    }
+}
 
-
+selector(action,value);

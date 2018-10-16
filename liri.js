@@ -26,10 +26,15 @@ function spoti(song){
         for (var i=0; i<10;i++)
         {   console.log("**************");
             console.log("***ARTIST : "+data.tracks.items[i].artists[0].name);
+            log("***ARTIST : "+data.tracks.items[i].artists[0].name+"\n");
             console.log("***ALBUM : "+data.tracks.items[i].album.name);
+            log("***ALBUM : "+data.tracks.items[i].album.name+"\n");
             console.log("***SONG : "+data.tracks.items[i].name);
+            log("***SONG : "+data.tracks.items[i].name+"\n");
             console.log("***SPOTIFY LINK : "+data.tracks.items[i].external_urls.spotify);
+            log("***SPOTIFY LINK : "+data.tracks.items[i].external_urls.spotify+"\n");
             console.log("");
+            log("\n"+"******************"+"\n");
         }
     });
 }
@@ -39,14 +44,23 @@ function bands(band){
     bandsintown
         .getArtistEventList(band)
         .then(function(events) {
-            //console.log(events);
+            if (events.length>9)
+                {var num=10;}
+            else    {var num=events.length;}
             for (var i=0;i<10;i++)
-            {
+            {   
                 console.log(events[i].title);
+                log(events[i].title+"\n");
                 console.log(events[i].venue.name+" in "+events[i].venue.city);
+                log(events[i].venue.name+" in "+events[i].venue.city+"\n");
                 console.log(events[i].formatted_datetime);
+                log(events[i].formatted_datetime+"\n");
                 console.log("**************");
                 console.log("");
+                
+                log("\n"+"****************"+"\n");
+                
+                
            }
     });
 }
@@ -63,12 +77,20 @@ function omdb(movie){
         // Parse the body of the site and recover just the imdbRating
         // (Note: The syntax below for parsing isn't obvious. Just spend a few moments dissecting it).
         console.log("Title: "+JSON.parse(body).Title);
+        log("Title: "+JSON.parse(body).Title+"\n");
         console.log("Release Year: " + JSON.parse(body).Year);
+        log("Release Year: " + JSON.parse(body).Year+"\n");
         console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
+        log("IMDB Rating: " + JSON.parse(body).imdbRating+"\n");
         console.log("Country: " + JSON.parse(body).Country);
+        log("Country: " + JSON.parse(body).Country+"\n");
         console.log("Language: " + JSON.parse(body).Language);
+        log("Language: " + JSON.parse(body).Language+"\n");
         console.log("Plot: " + JSON.parse(body).Plot);
+        log("Plot: " + JSON.parse(body).Plot+"\n");
         console.log("Actors: " + JSON.parse(body).Actors);
+        log("Actors: " + JSON.parse(body).Actors+"\n");
+        log("\n"+"****************"+"\n");
     }
     });
 
@@ -81,7 +103,9 @@ var what=function(){
         }
         var dataArray=data.split(',',2);
         console.log("action "+dataArray[0]);
+        log("action "+dataArray[0]+"\n");
         console.log("value "+dataArray[1]);
+        log("value "+dataArray[1]+"\n");
         selector(dataArray[0],dataArray[1]);
         
     });
@@ -93,7 +117,7 @@ function selector(action,value){
             
                 break;
         case "spotify-this-song":spoti(value);
-                console.log("funciona");
+              
                 break;
         case "movie-this":
                 omdb(value);
@@ -110,6 +134,12 @@ function selector(action,value){
                 console.log("movie-this");
                 console.log("do-what-it-says"); break;
     }
+}
+
+function log(data){
+    fs.appendFile("log.txt", data, function(err) {
+        if (err) throw err;
+      });
 }
 
 selector(action,value);

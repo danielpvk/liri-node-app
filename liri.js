@@ -23,7 +23,10 @@ function spoti(song){
         if (err) {
              return console.log('Error occurred: ' + err);
          }
-        for (var i=0; i<10;i++)
+         if (data.tracks.items.length>9)
+         {var num=10;}
+     else    {var num=data.tracks.items.length;}
+        for (var i=0; i<num;i++)
         {   console.log("**************");
             console.log("***ARTIST : "+data.tracks.items[i].artists[0].name);
             log("***ARTIST : "+data.tracks.items[i].artists[0].name+"\n");

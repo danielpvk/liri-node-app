@@ -17,8 +17,8 @@ switch (action) {
     case "spotify-this-song":spoti(value);
             console.log("funciona");
             break;
-    case "movie-this-song":
-
+    case "movie-this":
+            omdb(value);
              break;
     case "do-what-it-says":
     
@@ -46,6 +46,8 @@ function spoti(song){
         console.log("***SPOTIFY LINK : "+data.tracks.items[i].external_urls.spotify);
         console.log("");
     }
+    console.log("**************");
+    console.log("APP NOT READY");
 });
 }
 
@@ -64,8 +66,35 @@ function bands(band){
                 console.log("");
            }
     });
+    console.log("**************");
+    console.log("APP NOT READY");
+}
+
+function omdb(movie){
+    var queryUrl = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy";
+    var request = require("request");
+    // This line is just to help us debug against the actual URL.
+    console.log(queryUrl);
+
+    request(queryUrl, function(error, response, body) {
+    // If the request is successful
+    if (!error && response.statusCode === 200) {
+        // Parse the body of the site and recover just the imdbRating
+        // (Note: The syntax below for parsing isn't obvious. Just spend a few moments dissecting it).
+        console.log("Title: "+JSON.parse(body).Title);
+        console.log("Release Year: " + JSON.parse(body).Year);
+        console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
+        console.log("Country: " + JSON.parse(body).Country);
+        console.log("Language: " + JSON.parse(body).Language);
+        console.log("Plot: " + JSON.parse(body).Plot);
+        console.log("Actors: " + JSON.parse(body).Actors);
+    }
+});
+
 }
 
 
 console.log("**************");
 console.log("APP NOT READY");
+
+
